@@ -59,6 +59,9 @@
 
     <label for="sections">Amount of sections:</label>
     <input type="number" id="sections">
+	<label for="stoploss">Stoploss:</label>
+	<input type="number" id="stoploss">
+
 
     <button onclick="calculate()">Calculate</button>
 
@@ -76,33 +79,69 @@
     <p id="shares-sell"></p>
 
     <script>
-        function calculate() {
-            let r1 = parseFloat(document.getElementById("range1").value);
-            let r2 = parseFloat(document.getElementById("range2").value);
-            let sections = parseFloat(document.getElementById("sections").value);
+	
+	let increment; // Declare increment as a global variable
+        let resultsArray = []; // Declare an array to store the result values
+function calculate() {
+    let r1 = parseFloat(document.getElementById("range1").value);
+    let r2 = parseFloat(document.getElementById("range2").value);
+    let sections = parseFloat(document.getElementById("sections").value);
+    let stoploss = parseFloat(document.getElementById("stoploss").value);
+	let averageEntry = (r1 + r2) / 2;
+    let stopLossPercent = ((stoploss - averageEntry) / averageEntry) * 100;
 
-            let increment = (r2 - r1) / (sections - 1);
 
-            document.getElementById("increment").innerHTML = "Increment of " + increment;
+    let increment = (r2 - r1) / (sections - 1);
 
-            let result = r1;
-            let results = "";
+    document.getElementById("increment").innerHTML = "Increment of " + increment;
 
-            for (let i = 0; i < sections; i++) {
-                results += result + "<br>";
-                result += increment;
-            }
+    let result = r1;
+    let results = "";
 
-            document.getElementById("results").innerHTML = results;
+for (let i = 0; i < sections; i++) {
+	results += result + " <input type='text' id='input-" + i + "' placeholder='Enter value' oninput='calculatePercentage(" + i + ")'> <span id='percentage-" + i + "'></span> <br>";
+    resultsArray.push(result);
+	result += increment;
+}
+
+
+
+
+
+   
+
+    if (stopLossPercent > 0) {
+        stopLossPercent = "+" + stopLossPercent.toFixed(2) + "%";
+    } else {
+        stopLossPercent = stopLossPercent.toFixed(2) + "%";
+    }
+
+    document.getElementById("results").innerHTML = results + "<br>Average entry: " + averageEntry + "<br>Stop loss percentage: " + stopLossPercent + "<br>";
+}
+
+  function calculatePercentage(index) {
+            let inputValue = parseFloat(document.getElementById("input-" + index).value);
+            let resultValue = resultsArray[index];
+            let percentage = ((inputValue - resultValue) / resultValue) * 100;
+            document.getElementById("percentage-" + index).innerHTML = percentage.toFixed(2) + "%";
         }
+
+
+
+
+
+
 
         function calculateTP() {
             let shares = parseFloat(document.getElementById("shares").value);
             let tp = parseFloat(document.getElementById("tp").value);
+			
 
             let sharesSell = shares / tp;
 
             document.getElementById("shares-sell").innerHTML = "Number of shares sell at each TP = " + sharesSell;
+			
+
         }
     </script>
 </body>
