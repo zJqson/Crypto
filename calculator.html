@@ -61,6 +61,9 @@
     <input type="number" id="sections">
 	<label for="stoploss">Stoploss:</label>
 	<input type="number" id="stoploss">
+	
+	
+
 
 
     <button onclick="calculate()">Calculate</button>
@@ -77,6 +80,12 @@
     <button onclick="calculateTP()">Calculate TP</button>
 
     <p id="shares-sell"></p>
+	
+	<label for="input-format">Paste formatted text:</label>
+<textarea id="input-format" rows="10" cols="50"></textarea><br>
+<button onclick="parseInput()">Parse Input</button>
+<button onclick="inverseTP()">Inverse TP</button>
+
 
     <script>
 	
@@ -143,6 +152,58 @@ for (let i = 0; i < sections; i++) {
 			
 
         }
+		
+		function parseInput() {
+    let inputText = document.getElementById("input-format").value;
+    let rangePattern = /(\d+(\.\d+)?)[\s\-]+(\d+(\.\d+)?)/;
+    let tpPattern = /TP\d+:\s+(\d+(\.\d+)?)/g;
+    let slPattern = /SL:\s+(\d+(\.\d+)?)/;
+
+    let rangeMatch = inputText.match(rangePattern);
+    let tpMatches = Array.from(inputText.matchAll(tpPattern));
+    let slMatch = inputText.match(slPattern);
+    let tpValues = [];
+
+    if (rangeMatch) {
+        document.getElementById("range1").value = rangeMatch[1];
+        document.getElementById("range2").value = rangeMatch[3];
+    }
+
+    if (tpMatches) {
+        document.getElementById("sections").value = tpMatches.length;
+        tpMatches.forEach((match) => {
+            tpValues.push(match[1]);
+        });
+    }
+
+    if (slMatch) {
+        document.getElementById("stoploss").value = slMatch[1];
+    }
+
+    calculate();
+
+    for (let i = 0; i < tpValues.length; i++) {
+        document.getElementById("input-" + i).value = tpValues[i];
+        calculatePercentage(i);
+    }
+}
+
+function inverseTP() {
+    let sections = parseFloat(document.getElementById("sections").value);
+    let reversedTPValues = [];
+
+    for (let i = 0; i < sections; i++) {
+        reversedTPValues.unshift(document.getElementById("input-" + i).value);
+    }
+
+    for (let i = 0; i < sections; i++) {
+        document.getElementById("input-" + i).value = reversedTPValues[i];
+        calculatePercentage(i);
+    }
+}
+
+
+
     </script>
 </body>
 </html>
