@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DCA Calculator</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        input[type="number"] {
+            display: block;
+            margin: 0 auto;
+            padding: 5px;
+            width: 80%;
+            max-width: 300px;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 300px;
+        }
+        button:hover {
+            background-color: #3e8e41;
+        }
+        #increment, #results, #shares-sell {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>DCA Calculator</h1>
+
+    <label for="range1">Range 1:</label>
+    <input type="number" id="range1">
+
+    <label for="range2">Range 2:</label>
+    <input type="number" id="range2">
+
+    <label for="sections">Amount of sections:</label>
+    <input type="number" id="sections">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <p id="increment"></p>
+    <p id="results"></p>
+
+    <label for="shares">Number of shares:</label>
+    <input type="number" id="shares">
+
+    <label for="tp">Number of TP:</label>
+    <input type="number" id="tp">
+
+    <button onclick="calculateTP()">Calculate TP</button>
+
+    <p id="shares-sell"></p>
+
+    <script>
+        function calculate() {
+            let r1 = parseFloat(document.getElementById("range1").value);
+            let r2 = parseFloat(document.getElementById("range2").value);
+            let sections = parseFloat(document.getElementById("sections").value);
+
+            let increment = (r2 - r1) / (sections - 1);
+
+            document.getElementById("increment").innerHTML = "Increment of " + increment;
+
+            let result = r1;
+            let results = "";
+
+            for (let i = 0; i < sections; i++) {
+                results += result + "<br>";
+                result += increment;
+            }
+
+            document.getElementById("results").innerHTML = results;
+        }
+
+        function calculateTP() {
+            let shares = parseFloat(document.getElementById("shares").value);
+            let tp = parseFloat(document.getElementById("tp").value);
+
+            let sharesSell = shares / tp;
+
+            document.getElementById("shares-sell").innerHTML = "Number of shares sell at each TP = " + sharesSell;
+        }
+    </script>
+</body>
+</html>
