@@ -97,7 +97,7 @@ let wrongAttempts = 0;
 function getRandomImage() {
     let keys = Object.keys(passcodes);
     let randomKey = keys[Math.floor(Math.random() * keys.length)];
-    let imageUrl = `images/${randomKey}.png`;
+    let imageUrl = `https://raw.githubusercontent.com/zJqson/Projects/main/images/${randomKey}.png`; // Updated image URL
     imageDisplay.src = imageUrl;
     imageDisplay.setAttribute("data-filename", randomKey);
 }
@@ -118,7 +118,6 @@ function checkPasscode(e) {
         wrongAttempts++;
         if (wrongAttempts > 0) {
             message.textContent = `The correct passcode is ${passcodes[currentImage]}. Try the next image!`;
-           
         } else {
             message.textContent = "Try again!";
         }
@@ -128,7 +127,6 @@ function checkPasscode(e) {
 passcodeForm.addEventListener("submit", checkPasscode);
 
 getRandomImage();
-	
 	
 	</script>
 </body>
