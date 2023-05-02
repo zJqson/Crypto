@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Passcode Game</title>
+    <style>
+	body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+img {
+    width: 20%; /* This line is updated to set the image width to 50% of its original size */
+    height: 20%;
+}
+
+input, button {
+    font-size: 1rem;
+}
+
+	</style>
+</head>
+<body>
+    <h1>Image Passcode Game</h1>
+    <img id="imageDisplay" src="" alt="Random Image">
+    <p>Enter the passcode for the image:</p>
+    <form id="passcodeForm"> <!-- Add a form element here -->
+        <input type="number" id="inputPasscode" placeholder="Enter passcode">
+        <button type="submit">Submit</button>
+    </form>
+    <p id="message"></p>
+
+    <script>
+	const passcodes = {
+  "result": 137,
+  "result (1)": 27,
+  "result (2)": 158,
+  "result (3)": 856,
+  "result (4)": 185,
+  "result (5)": 141,
+  "result (6)": 110,
+  "result (7)": 719,
+  "result (8)": 644,
+  "result (9)": 469,
+  "result (10)": 163,
+  "result (11)": 164,
+  "result (12)": 170,
+  "result (13)": 24,
+  "result (14)": 176,
+  "result (15)": 169,
+  "result (16)": 108,
+  "result (17)": 464,
+  "result (18)": 111,
+  "result (19)": 47,
+  "result (20)": 45,
+  "result (21)": 69,
+  "result (22)": 43,
+  "result (23)": 453,
+  "result (24)": 30,
+  "result (25)": 29,
+  "result (26)": 193,
+  "result (27)": 154,
+  "result (28)": 192,
+  "result (29)": 82,
+  "result (30)": 153,
+  "result (31)": 148,
+  "result (32)": 53,
+  "result (33)": 414,
+  "result (34)": 367,
+  "result (35)": 263,
+  "result (36)": 363,
+  "result (37)": 403,
+  "result (38)": 180,
+  "result (39)": 565,
+  "result (40)": 330,
+  "result (41)": 828,
+  "result (42)": 325,
+  "result (43)": 298,
+  "result (44)": 248,
+  "result (45)": 275,
+  "result (46)": 673,
+  "result (47)": 661,
+  "result (48)": 204,
+  "result (49)": 412,
+  "result (50)": 252
+};
+
+let imageDisplay = document.getElementById("imageDisplay");
+let inputPasscode = document.getElementById("inputPasscode");
+let message = document.getElementById("message");
+let passcodeForm = document.getElementById("passcodeForm");
+
+let wrongAttempts = 0;
+
+function getRandomImage() {
+    let keys = Object.keys(passcodes);
+    let randomKey = keys[Math.floor(Math.random() * keys.length)];
+    let imageUrl = `images/${randomKey}.png`;
+    imageDisplay.src = imageUrl;
+    imageDisplay.setAttribute("data-filename", randomKey);
+}
+
+function checkPasscode(e) {
+    e.preventDefault();
+    let userPasscode = parseInt(inputPasscode.value, 10);
+    let currentImage = imageDisplay.getAttribute("data-filename");
+
+    if (userPasscode === passcodes[currentImage]) {
+        wrongAttempts = 0;
+        setTimeout(() => {
+            getRandomImage();
+            inputPasscode.value = "";
+            message.textContent = "";
+        }, 10);
+    } else {
+        wrongAttempts++;
+        if (wrongAttempts > 0) {
+            message.textContent = `The correct passcode is ${passcodes[currentImage]}. Try the next image!`;
+           
+        } else {
+            message.textContent = "Try again!";
+        }
+    }
+}
+
+passcodeForm.addEventListener("submit", checkPasscode);
+
+getRandomImage();
+	
+	
+	</script>
+</body>
+</html>
