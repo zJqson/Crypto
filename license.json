@@ -1,0 +1,7 @@
+{
+  "licenses": [
+    { "key": "eba983c8-d601-4c76-a283-8cc9e06a5765", "isValid": true },
+    { "key": "12345abcde-fghi-67890-jklmn-54321opqr", "isValid": true },
+    { "key": "zyxwv-98765-utsrq-po432-lkjhgf", "isValid": false }
+  ]
+}
